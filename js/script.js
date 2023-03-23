@@ -47,3 +47,8 @@ function backgroundAudio() {
 }
 
 audioFundoBtn.addEventListener('click', backgroundAudio)
+
+audioFundo.addEventListener('ended', () => {
+    audioFundoBtn.innerHTML = `<i class="fa-solid fa-play"></i>`
+    statusBackgroundMusic = false
+})
