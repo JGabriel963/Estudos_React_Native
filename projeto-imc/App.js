@@ -15,8 +15,26 @@ export default function App() {
         const peso = parseFloat(weight.replace(",", "."))
         const altura = parseFloat(height.replace(",", ".")) ** 2
         const imc = (peso / altura).toFixed(2)
+        let classification = ""
+
+
+        if (Number(imc) < 18) {
+          classification = "Abaixo do peso"
+        } else if (Number(imc) < 25) {
+          classification = "Peso ideal"
+        } else if (Number(imc) < 30) {
+          classification = "Acima do Peso"
+        } else if (Number(imc) < 35) {
+          classification = "Obesidade grau I"
+        } else if (Number(imc) < 40) {
+          classification = "Obesidade gray II"
+        } else {
+          classification = "Obesidade grau III"
+        }
+
         
-        setResult(`IMC - ${imc}`)
+        
+        setResult(`IMC - ${imc} | ${classification}`)
 
     }
 
@@ -48,7 +66,7 @@ export default function App() {
                     </Text>
                 </TouchableOpacity>
                 <Text style={styles.result}>
-                    45.23
+                    {!result ? "Resultado": result}
                 </Text>
             </View>
         </View>
@@ -106,7 +124,13 @@ const styles = StyleSheet.create({
         borderRadius: 9
     },
     result: {
+      width: "70%",
       marginTop: 14,
-      backgroundColor: "#6aa9e9"
+      backgroundColor: "#6aa9e9",
+      padding: 12,
+      borderRadius: 8,
+      fontSize: 24,
+      fontWeight: 'bold',
+      textAlign: "center"
     }
 })
