@@ -4,10 +4,14 @@ import { Button, StyleSheet, Text, View } from "react-native";
 export default function Home() {
     const navigation = useNavigation()
 
+    function goToAbout() {
+        navigation.navigate('Details')
+    }
+
     return (
         <View style={styles.container}>
             <Text>Home</Text>
-            <Button title="Ir para sobre" onPress={() => navigation.navigate('About')} />
+            <Button title="Ir para detalhes" onPress={goToAbout} />
         </View>
     )
 }
@@ -17,6 +21,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        gap: 5
     }
 })
