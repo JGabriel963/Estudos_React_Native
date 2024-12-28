@@ -20,15 +20,15 @@ export default function TabRoute() {
           headerShown: false,
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#34CB79",
-
+          tabBarActiveTintColor: "#34CB79"
+          
         //   tabBarStyle: {
         //     borderTopWidth: 0,
         //   }
         }}
       >
         <Tab.Screen 
-          name="Home" 
+          name="HomeStack" 
           component={StackRoute}
           options={{
             tabBarLabel: "Início",
