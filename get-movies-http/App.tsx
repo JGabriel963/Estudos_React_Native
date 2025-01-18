@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, StyleSheet, Text, View, TextInput } from 'react-native';
 import api from './services/api';
 import { ApiResponseMovies, Movies } from './types';
 import { CardMovie } from './components/CardMovie';
@@ -42,6 +42,9 @@ export default function App() {
         </Text>
       </View>
 
+      <TextInput placeholder='Teeste' />
+
+      
       <FlatList
         data={movies}
         renderItem={({ item }) => {
