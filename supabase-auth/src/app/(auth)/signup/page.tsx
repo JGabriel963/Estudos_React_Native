@@ -2,6 +2,7 @@ import colors from "@/constants/Colors";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
+  ActivityIndicator,
     Alert,
   Pressable,
   SafeAreaView,
@@ -21,6 +22,7 @@ export default function Signup() {
   const [loading, setLoading] = useState(false);
 
   async function handleSignUp() {
+    console.log("Função iniciada")
     setLoading(true)
 
     const { data, error } = await supabase.auth.signUp({
@@ -40,7 +42,7 @@ export default function Signup() {
     }
 
     setLoading(false)
-    router.replace('/')
+    router.replace('/(auth)/signin/page')
   }
 
   return (
@@ -95,7 +97,9 @@ export default function Signup() {
             </View>
 
             <Pressable style={styels.button} onPress={handleSignUp} disabled={loading}>
-              <Text style={styels.buttonText}>Cadastrar</Text>
+              <Text style={styels.buttonText}>
+              {loading ? <ActivityIndicator /> : "Cadastrar"}
+              </Text>
             </Pressable>
           </View>
         </View>
