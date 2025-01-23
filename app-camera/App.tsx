@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
-import { Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
+import { Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions, Image } from 'react-native';
 import { Camera, useCameraDevice, useCameraPermission, useMicrophonePermission } from 'react-native-vision-camera'
 import { Video, ResizeMode } from 'expo-av'
 import * as MediaLibrary from 'expo-media-library'
@@ -14,6 +14,7 @@ export default function App() {
   const [permission, setPermission] = useState<boolean | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const cameraRef = useRef<Camera>(null)
@@ -84,13 +85,33 @@ export default function App() {
     }
   }
 
-  const handleAlbum = async () => {
-    try {
-      await MediaLibrary.getAlbumsAsync()
-    } catch (error) {
-      console.log("ERRO AO ABRIR ALBUM", error)
+  const handlePhoto = async () => {
+    // Se não possuir nenhum dispositio, encerrar função
+    if(!cameraRef.current || !device) return;
+
+    const photo = await cameraRef.current?.takePhoto({
+      flash: 'on'
+    })
+
+    console.log(`file://${photo.path}`)
+    setImageUrl(`file://${photo.path}`)
+    setModalVisible(true);
+  }
+
+  const handleSaveImage = async () => {
+    if (imageUrl) {
+      try {
+        await MediaLibrary.createAssetAsync(imageUrl);
+        console.log("IMAGEM SALVA COM SUCESSO!");
+        setImageUrl(null);
+        setModalVisible(false)
+      } catch (error) {
+        console.log("ERRRO COM SUCESSO!", error)
+      }
     }
   }
+
+
 
   if(!permission) return <View></View>
 
@@ -107,6 +128,7 @@ export default function App() {
         device={device}
         isActive={true}
         video={true}
+        photo={true}
         audio={true}
         outputOrientation='device'
         resizeMode='cover'
@@ -128,7 +150,7 @@ export default function App() {
       />
 
       <TouchableOpacity 
-        onPress={handleAlbum}
+        onPress={handlePhoto}
 
         style={{
           width: 70,
@@ -170,6 +192,35 @@ export default function App() {
 
               <TouchableOpacity style={styles.button} onPress={handleSaveVideo}>
                 <Text style={{color: '#000' }}>Salvar video</Text>
+              </TouchableOpacity>
+            </View>
+
+
+          </View>
+        </Modal>
+      )}
+
+      {imageUrl && (
+        <Modal animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={handleCloseModal}
+
+        >
+          <View style={styles.videoContainer}>
+
+            <Image
+              source={{ uri: imageUrl }}
+              style={{ width: widthScreen, height: heightScreen }}
+            />
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={handleCloseModal}>
+                <Text style={{color: '#000' }}>Fechar</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.button} onPress={handleSaveImage}>
+                <Text style={{color: '#000' }}>Salvar imagem</Text>
               </TouchableOpacity>
             </View>
 
