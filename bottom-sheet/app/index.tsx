@@ -88,7 +88,7 @@ export default function Home() {
           enablePanDownToClose={true}
         >
           <BottomSheetView style={styles.sheetView}>
-            <Text>
+            <Text style={{ fontWeight: 'bold' }}>
               Conteúdo do Bottom Sheet
             </Text>
             <TouchableOpacity activeOpacity={0.8} onPress={handleCloseAction}>
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    marginTop: 8
+    marginTop: 8,
+    marginBottom: 12
   },
   itemContainer: {
     width: '100%',
